@@ -1,7 +1,8 @@
-package ru.ownikss.demo
+package ru.ownikss.demo.ui
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import ru.ownikss.demo.R
 
 class MainActivity : AppCompatActivity() {
 
