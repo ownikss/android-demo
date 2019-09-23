@@ -1,6 +1,9 @@
 package ru.ownikss.demo.ui.fragments
 
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -25,6 +28,27 @@ class FilmFragment: Fragment() {
         binding = DataBindingUtil.inflate(inflater, R.layout.film_fragment, container, false)
         binding.store = ViewModelProviders.of(activity!!).get(FilmStore::class.java)
         binding.store!!.selectedFilm.addOnPropertyChangedCallback(cb)
+        binding.like.setOnClickListener( {
+            val film = binding.store!!.selectedFilm.get()
+            if (film != null) {
+                film.isFavourite.set(film.isFavourite.get()!!.not())
+            }
+        })
+        binding.commentInput.addTextChangedListener(object: TextWatcher {
+            override fun afterTextChanged(p0: Editable?) {
+            }
+
+            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+            }
+
+            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+                Log.d("OWNIKSS", p0.toString())
+                val film = binding.store!!.selectedFilm.get()
+                if (film != null) {
+                    film.comment.set(p0.toString())
+                }
+            }
+        })
         initImage()
         return binding.root
     }
@@ -32,6 +56,7 @@ class FilmFragment: Fragment() {
     override fun onDestroy() {
         super.onDestroy()
         binding.store!!.selectedFilm.removeOnPropertyChangedCallback(cb)
+        binding.store!!.closeFilm()
     }
 
     fun initImage() {
