@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">androidDemo</string>
+
+    <string name="films">Фильмы</string>
+    <string name="main">Главная</string>
+    <string name="about">О программе</string>
+    <string name="details">ДЕТАЛИ</string>
 </resources>
