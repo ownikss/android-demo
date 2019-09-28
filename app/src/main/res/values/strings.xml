@@ -5,4 +5,7 @@
     <string name="main">Главная</string>
     <string name="about">О программе</string>
     <string name="details">ДЕТАЛИ</string>
+    <string name="comment">Комментарий</string>
+    <string name="like">Нравится</string>
+    <string name="lorem">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Beatae cum eius harum in iste laborum libero nesciunt, numquam officiis praesentium, rerum suscipit vel veritatis? A consequatur ipsa perspiciatis. Facere, illo!</string>
 </resources>

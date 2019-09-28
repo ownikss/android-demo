@@ -28,11 +28,13 @@ class FilmFragment: Fragment() {
         binding = DataBindingUtil.inflate(inflater, R.layout.film_fragment, container, false)
         binding.store = ViewModelProviders.of(activity!!).get(FilmStore::class.java)
         binding.store!!.selectedFilm.addOnPropertyChangedCallback(cb)
+        val film = binding.store!!.selectedFilm.get()!!
+        binding.AppBar.title = film.label
+        Glide.with(this)
+            .load(film.image)
+            .into(binding.toolbarImage)
         binding.like.setOnClickListener( {
-            val film = binding.store!!.selectedFilm.get()
-            if (film != null) {
-                film.isFavourite.set(film.isFavourite.get()!!.not())
-            }
+            film.isFavourite.set(film.isFavourite.get()!!.not())
         })
         binding.commentInput.addTextChangedListener(object: TextWatcher {
             override fun afterTextChanged(p0: Editable?) {
@@ -42,11 +44,7 @@ class FilmFragment: Fragment() {
             }
 
             override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-                Log.d("OWNIKSS", p0.toString())
-                val film = binding.store!!.selectedFilm.get()
-                if (film != null) {
-                    film.comment.set(p0.toString())
-                }
+                film.comment.set(p0.toString())
             }
         })
         initImage()
