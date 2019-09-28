@@ -2,6 +2,7 @@ package ru.ownikss.demo.models
 
 import android.app.Application
 import android.util.Log
+import android.view.View
 import androidx.databinding.Observable
 import androidx.databinding.ObservableField
 import androidx.lifecycle.AndroidViewModel
@@ -57,6 +58,16 @@ class FilmStore(application: Application) : AndroidViewModel(application) {
                 "comment: ${film.comment.get()} + , is favourite: ${film.isFavourite.get().toString()}"
             )
         }
+    }
+
+    fun like(view: View) {
+        val film = selectedFilm.get()!!
+        film.isFavourite.set(film.isFavourite.get()!!.not())
+    }
+
+    fun comment(text: String) {
+        val film = selectedFilm.get()!!
+        film.comment.set(text)
     }
 
     init {

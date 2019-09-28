@@ -6,11 +6,14 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
+
         <androidx.core.widget.NestedScrollView
+            android:id="@+id/container"
             android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:clipToPadding="false"
-            app:layout_behavior="@string/appbar_scrolling_view_behavior"
-            android:layout_height="match_parent">
+            app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -21,30 +24,23 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent" />
 
-                <TextView
-                    android:id="@+id/title"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="@{store.selectedFilm != null ? store.selectedFilm.label : `Фильм`}" />
-
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
-                    android:paddingVertical="20dp">
+                    android:paddingVertical="20dp"
+                    android:paddingStart="16dp"
+                    android:paddingEnd="16dp">
+
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="@string/lorem"/>
-                    <CheckBox
-                        android:id="@+id/like"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:checked="@{store.selectedFilm.isFavourite}"
-                        android:text="@string/like" />
+                        android:text="@string/lorem"
+                        android:textSize="16sp" />
 
                     <com.google.android.material.textfield.TextInputLayout
                         android:layout_width="match_parent"
+                        android:paddingTop="16dp"
                         android:layout_height="match_parent">
 
                         <com.google.android.material.textfield.TextInputEditText
@@ -60,17 +56,18 @@
         </androidx.core.widget.NestedScrollView>
 
         <com.google.android.material.appbar.AppBarLayout
+            android:id="@+id/app_bar_layout"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
 
             <com.google.android.material.appbar.CollapsingToolbarLayout
                 android:layout_width="match_parent"
                 android:layout_height="350dp"
+                app:collapsedTitleTextAppearance="@android:color/white"
                 app:contentScrim="?attr/colorPrimary"
                 app:expandedTitleGravity="bottom"
                 app:expandedTitleTextAppearance="@android:color/white"
-                app:collapsedTitleTextAppearance="@android:color/white"
-
                 app:layout_scrollFlags="scroll|exitUntilCollapsed|snap">
 
                 <ImageView
@@ -83,12 +80,25 @@
 
                 <androidx.appcompat.widget.Toolbar
                     android:id="@+id/AppBar"
-                    app:titleTextColor="@android:color/white"
                     android:layout_width="match_parent"
-                    android:layout_height="54dp"
-                    app:layout_collapseMode="pin" />
+                    android:layout_height="?attr/actionBarSize"
+                    android:theme="@style/Toolbar.Button.Navigation.Tinted"
+                    app:layout_collapseMode="pin"
+                    app:navigationIcon="@drawable/ic_arrow"
+                    app:titleTextColor="@android:color/white" />
             </com.google.android.material.appbar.CollapsingToolbarLayout>
         </com.google.android.material.appbar.AppBarLayout>
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/like_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="@{store::like}"
+            android:src="@{store.selectedFilm.isFavourite ? @drawable/ic_favorite_fill : @drawable/ic_favorite_border}"
+            android:tint="@android:color/white"
+            app:elevation="6dp"
+            app:layout_anchor="@id/app_bar_layout"
+            app:layout_anchorGravity="bottom|right|end" />
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
     <data>
