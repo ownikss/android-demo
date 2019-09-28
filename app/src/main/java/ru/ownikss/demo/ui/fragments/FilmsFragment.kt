@@ -2,10 +2,7 @@ package ru.ownikss.demo.ui.fragments;
 
 import android.content.Intent
 import android.os.Bundle;
-import android.view.Gravity
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
+import android.view.*
 import androidx.databinding.DataBindingUtil
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.Fragment;
@@ -18,6 +15,7 @@ import ru.ownikss.demo.databinding.FilmsFragmentBinding
 import ru.ownikss.demo.models.FilmStore
 import ru.ownikss.demo.ui.view.FilmAdapter
 
+
 class FilmsFragment : Fragment() {
     lateinit var binding: FilmsFragmentBinding
 
@@ -29,7 +27,11 @@ class FilmsFragment : Fragment() {
         binding = DataBindingUtil.inflate(inflater, R.layout.films_fragment, container, false)
         binding.store = ViewModelProviders.of(activity!!).get(FilmStore::class.java)
         binding.filmList.layoutManager = LinearLayoutManager(context)
-        binding.toolbar.setNavigationOnClickListener { (binding.drawer as DrawerLayout).openDrawer(Gravity.LEFT) }
+        binding.toolbar.setNavigationOnClickListener {
+            (binding.drawer as DrawerLayout).openDrawer(Gravity.LEFT)
+        }
+        binding.toolbar.inflateMenu(R.menu.main_menu)
+        binding.toolbar.setOnMenuItemClickListener { this.handleMenuSelected(it) }
         binding.filmList.adapter = FilmAdapter(binding.store!!.films, this)
         binding.store!!.filmOpened.observe(activity!!, Observer {
             try {
@@ -39,6 +41,11 @@ class FilmsFragment : Fragment() {
             }
         })
         binding.shareBtn.setOnClickListener({
+        })
+        return binding.root
+    }
+    fun handleMenuSelected(item: MenuItem): Boolean {
+        if (item.title == activity!!.getString(R.string.share)) {
             val sendIntent: Intent = Intent().apply {
                 action = Intent.ACTION_SEND
                 putExtra(Intent.EXTRA_TEXT, "Приглашаю")
@@ -46,7 +53,8 @@ class FilmsFragment : Fragment() {
             }
             val shareIntent = Intent.createChooser(sendIntent, null)
             startActivity(shareIntent)
-        })
-        return binding.root
+        }
+        return false
+
     }
 }

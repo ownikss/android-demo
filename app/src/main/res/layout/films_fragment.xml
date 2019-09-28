@@ -39,7 +39,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="end|bottom"
                 android:layout_margin="16dp"
-                android:src="@drawable/ic_share"
+                android:src="@drawable/ic_add"
                 android:tint="@android:color/white" />
         </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
