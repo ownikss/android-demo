@@ -29,8 +29,14 @@ class FilmAdapter(private val data: Array<FilmModel>, private val base: Fragment
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
         holder.binding.label.text = data[position].label
         holder.binding.id = data[position].id
+        val id = data[position].id
+
+        holder.binding.label.transitionName = holder.binding.label.transitionName + id.toString()
+        holder.binding.image.transitionName = holder.binding.image.transitionName + id.toString()
+        holder.binding.description.transitionName = holder.binding.description.transitionName + id.toString()
+
         holder.binding.detailsBtn.setOnClickListener {
-            holder.binding.store!!.selectFilm(holder.binding.id!!)
+            holder.binding.store!!.selectFilm(holder.binding.id!!, holder.binding)
             holder.binding.executePendingBindings()
         }
         holder.binding.executePendingBindings()

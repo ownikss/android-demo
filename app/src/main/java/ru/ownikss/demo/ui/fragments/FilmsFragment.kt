@@ -8,8 +8,10 @@ import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import androidx.navigation.fragment.FragmentNavigatorExtras
 import androidx.navigation.fragment.NavHostFragment
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.transition.TransitionInflater
 import ru.ownikss.demo.R
 import ru.ownikss.demo.databinding.FilmsFragmentBinding
 import ru.ownikss.demo.models.FilmStore
@@ -35,8 +37,12 @@ class FilmsFragment : Fragment() {
         binding.filmList.adapter = FilmAdapter(binding.store!!.films, this)
         binding.store!!.filmOpened.observe(activity!!, Observer {
             try {
+                val extras = FragmentNavigatorExtras(
+                    binding.store!!.binding!!.description to "description",
+                    binding.store!!.binding!!.image to "image"
+                )
                 NavHostFragment.findNavController(this@FilmsFragment)
-                    .navigate(R.id.action_filmsFragment_to_filmFragment)
+                    .navigate(R.id.action_filmsFragment_to_filmFragment, null, null, extras)
             } catch (e: Exception) {
             }
         })

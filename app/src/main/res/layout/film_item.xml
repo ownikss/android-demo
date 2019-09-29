@@ -25,6 +25,7 @@
 
                 <ImageView
                     android:id="@+id/image"
+                    android:transitionName="image"
                     android:layout_width="100dp"
                     android:layout_height="wrap_content"
                     tools:srcCompat="@tools:sample/backgrounds/scenic" />
@@ -40,6 +41,7 @@
                         android:layout_height="match_parent">
 
                         <TextView
+                            android:transitionName="title"
                             android:id="@+id/label"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
@@ -49,6 +51,7 @@
                             tools:text="title" />
 
                         <TextView
+                            android:transitionName="description"
                             android:id="@+id/description"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"

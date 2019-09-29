@@ -18,6 +18,7 @@ import ru.ownikss.demo.R
 import ru.ownikss.demo.databinding.FilmFragmentBinding
 import ru.ownikss.demo.models.FilmStore
 import android.view.inputmethod.InputMethodManager
+import androidx.transition.TransitionInflater
 
 
 class FilmFragment : Fragment() {
@@ -26,6 +27,11 @@ class FilmFragment : Fragment() {
         override fun onPropertyChanged(sender: Observable?, propertyId: Int) {
             this@FilmFragment.initImage()
         }
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        sharedElementEnterTransition = TransitionInflater.from(context).inflateTransition(android.R.transition.move)
     }
 
     override fun onCreateView(

@@ -6,6 +6,7 @@ import android.view.View
 import androidx.databinding.Observable
 import androidx.databinding.ObservableField
 import androidx.lifecycle.AndroidViewModel
+import ru.ownikss.demo.databinding.FilmItemBinding
 import ru.ownikss.demo.utils.SingleLiveEvent
 
 class FilmStore(application: Application) : AndroidViewModel(application) {
@@ -36,6 +37,8 @@ class FilmStore(application: Application) : AndroidViewModel(application) {
     var selectedFilm: ObservableField<FilmModel?> = ObservableField()
     val filmOpened = SingleLiveEvent<Any>()
 
+    var binding: FilmItemBinding? = null
+
     fun getSelectedFilm(): FilmModel? {
         for (i in 0 until films.size) {
             if (films[i].id == selectedId.get()) {
@@ -45,7 +48,8 @@ class FilmStore(application: Application) : AndroidViewModel(application) {
         return null
     }
 
-    fun selectFilm(id: Int) {
+    fun selectFilm(id: Int, _binding: FilmItemBinding) {
+        binding = _binding
         selectedId.set(id)
         filmOpened.call()
     }
