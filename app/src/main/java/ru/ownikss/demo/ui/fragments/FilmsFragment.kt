@@ -11,12 +11,10 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.FragmentNavigatorExtras
 import androidx.navigation.fragment.NavHostFragment
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.transition.TransitionInflater
 import ru.ownikss.demo.R
 import ru.ownikss.demo.databinding.FilmsFragmentBinding
 import ru.ownikss.demo.models.FilmStore
 import ru.ownikss.demo.ui.view.FilmAdapter
-
 
 class FilmsFragment : Fragment() {
     lateinit var binding: FilmsFragmentBinding
@@ -46,10 +44,17 @@ class FilmsFragment : Fragment() {
             } catch (e: Exception) {
             }
         })
-        binding.shareBtn.setOnClickListener({
-        })
+        binding.drawerLayout.about.setOnClickListener {
+            try {
+                (binding.drawer as DrawerLayout).closeDrawer(Gravity.LEFT)
+                NavHostFragment.findNavController(this)
+                    .navigate(R.id.action_filmsFragment_to_aboutFragment)
+            } catch (e: Exception) {
+            }
+        }
         return binding.root
     }
+
     fun handleMenuSelected(item: MenuItem): Boolean {
         if (item.title == activity!!.getString(R.string.share)) {
             val sendIntent: Intent = Intent().apply {

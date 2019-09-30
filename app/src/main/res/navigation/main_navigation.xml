@@ -10,9 +10,16 @@
         <action
             android:id="@+id/action_filmsFragment_to_filmFragment"
             app:destination="@id/filmFragment" />
+        <action
+            android:id="@+id/action_filmsFragment_to_aboutFragment"
+            app:destination="@id/aboutFragment" />
     </fragment>
     <fragment
         android:id="@+id/filmFragment"
         android:name="ru.ownikss.demo.ui.fragments.FilmFragment"
         android:label="FilmFragment" />
+    <fragment
+        android:id="@+id/aboutFragment"
+        android:name="ru.ownikss.demo.ui.fragments.AboutFragment"
+        android:label="AboutFragment" />
 </navigation>

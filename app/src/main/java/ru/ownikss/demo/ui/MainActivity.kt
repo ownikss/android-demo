@@ -10,7 +10,7 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        val store = ViewModelProviders.of(this).get(FilmStore::class.java)
+        ViewModelProviders.of(this).get(FilmStore::class.java)
         setContentView(R.layout.activity_main)
     }
 }
