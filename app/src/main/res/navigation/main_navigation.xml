@@ -13,6 +13,9 @@
         <action
             android:id="@+id/action_filmsFragment_to_aboutFragment"
             app:destination="@id/aboutFragment" />
+        <action
+            android:id="@+id/action_filmsFragment_to_addFilmFragment"
+            app:destination="@id/addFilmFragment" />
     </fragment>
     <fragment
         android:id="@+id/filmFragment"
@@ -22,4 +25,8 @@
         android:id="@+id/aboutFragment"
         android:name="ru.ownikss.demo.ui.fragments.AboutFragment"
         android:label="AboutFragment" />
+    <fragment
+        android:id="@+id/addFilmFragment"
+        android:name="ru.ownikss.demo.ui.fragments.AddFilmFragment"
+        android:label="AddFilmFragment" />
 </navigation>

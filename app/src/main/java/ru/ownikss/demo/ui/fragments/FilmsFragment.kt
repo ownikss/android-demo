@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.*
 import androidx.core.view.GravityCompat
 import androidx.databinding.DataBindingUtil
+import androidx.databinding.Observable
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer
@@ -36,8 +37,13 @@ class FilmsFragment : Fragment() {
 
         binding.filmList.layoutManager = LinearLayoutManager(context)
         binding.filmList.adapter = FilmAdapter(binding.store!!.films, this)
-        initListeners()
+        binding.store!!.films.addOnPropertyChangedCallback(object: Observable.OnPropertyChangedCallback() {
+            override fun onPropertyChanged(sender: Observable?, propertyId: Int) {
+                binding.filmList.adapter!!.notifyDataSetChanged()
+            }
 
+        })
+        initListeners()
         return binding.root
     }
 
@@ -49,6 +55,8 @@ class FilmsFragment : Fragment() {
         if (binding.store != null) {
             binding.store!!.filmOpened.observe(activity!!, Observer { navigateToFilm() })
         }
+        binding.addFilm.setOnClickListener { NavHostFragment.findNavController(this)
+            .navigate(R.id.action_filmsFragment_to_addFilmFragment) }
         binding.drawerLayout.about.setOnClickListener {
             try {
                 (binding.drawer as DrawerLayout).closeDrawer(GravityCompat.START)

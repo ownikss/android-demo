@@ -21,7 +21,6 @@
                 <androidx.appcompat.widget.Toolbar
                     android:theme="@style/Toolbar.Button.Navigation.Tinted"
                     android:id="@+id/toolbar"
-                    android:fitsSystemWindows="true"
                     app:title="@string/films"
                     app:navigationIcon="@drawable/ic_menu"
                     app:titleTextColor="@android:color/white"

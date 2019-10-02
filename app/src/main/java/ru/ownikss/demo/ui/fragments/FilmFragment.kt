@@ -64,9 +64,8 @@ class FilmFragment : Fragment() {
             NavHostFragment.findNavController(this).popBackStack()
         }
         binding.container.setOnTouchListener(fun(a: View, b: MotionEvent): Boolean {
-            val imm =
-                activity!!.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager?
-            imm!!.hideSoftInputFromWindow(binding.commentInput.getWindowToken(), 0)
+            val imm = activity!!.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+            imm.hideSoftInputFromWindow(binding.commentInput.getWindowToken(), 0)
             return false
         })
         binding.commentInput.addTextChangedListener(object : TextWatcher {

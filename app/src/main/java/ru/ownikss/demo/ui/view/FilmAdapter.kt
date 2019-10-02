@@ -4,6 +4,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
+import androidx.databinding.ObservableField
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.RecyclerView
@@ -13,7 +14,7 @@ import ru.ownikss.demo.databinding.FilmItemBinding
 import ru.ownikss.demo.models.FilmModel
 import ru.ownikss.demo.models.FilmStore
 
-class FilmAdapter(private val data: Array<FilmModel>, private val base: Fragment): RecyclerView.Adapter<FilmAdapter.MyViewHolder>() {
+class FilmAdapter(private val data: ObservableField<MutableList<FilmModel>>, private val base: Fragment): RecyclerView.Adapter<FilmAdapter.MyViewHolder>() {
     class MyViewHolder(val view: View, val binding: FilmItemBinding) : RecyclerView.ViewHolder(view)
 
     override fun onCreateViewHolder(parent: ViewGroup,
@@ -27,9 +28,9 @@ class FilmAdapter(private val data: Array<FilmModel>, private val base: Fragment
     }
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
-        holder.binding.label.text = data[position].label
-        holder.binding.id = data[position].id
-        val id = data[position].id
+        holder.binding.label.text = data.get()!![position].label
+        holder.binding.id = data.get()!![position].id
+        val id = data.get()!![position].id
 
         holder.binding.label.transitionName = holder.binding.label.transitionName + id.toString()
         holder.binding.image.transitionName = holder.binding.image.transitionName + id.toString()
@@ -41,9 +42,9 @@ class FilmAdapter(private val data: Array<FilmModel>, private val base: Fragment
         }
         holder.binding.executePendingBindings()
         Glide.with(base)
-            .load(data[position].image)
+            .load(data.get()!![position].image)
             .into(holder.binding.image)
     }
 
-    override fun getItemCount() = data.size
+    override fun getItemCount() = data.get()!!.size
 }

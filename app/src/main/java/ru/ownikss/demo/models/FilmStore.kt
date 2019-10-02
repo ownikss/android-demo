@@ -10,7 +10,7 @@ import ru.ownikss.demo.databinding.FilmItemBinding
 import ru.ownikss.demo.utils.SingleLiveEvent
 
 class FilmStore(application: Application) : AndroidViewModel(application) {
-    val films: Array<FilmModel> = arrayOf(
+    val films = ObservableField(mutableListOf(
         FilmModel(
             "https://s3.us-west-2.amazonaws.com/st.popcorn/movies/2a56ec/dc4a03/e7437ba7622ecf6a1780.jpg",
             "Впритык",
@@ -32,7 +32,7 @@ class FilmStore(application: Application) : AndroidViewModel(application) {
             "G.I.Joe - Бросок кобры",
             5
         )
-    )
+    ))
     var selectedId: ObservableField<Int> = ObservableField(-1)
     var selectedFilm: ObservableField<FilmModel?> = ObservableField()
     val filmOpened = SingleLiveEvent<Any>()
@@ -40,9 +40,10 @@ class FilmStore(application: Application) : AndroidViewModel(application) {
     var binding: FilmItemBinding? = null
 
     fun getSelectedFilm(): FilmModel? {
-        for (i in 0 until films.size) {
-            if (films[i].id == selectedId.get()) {
-                return films[i]
+        val filmsList = films.get()!!
+        for (i in 0 until filmsList.size) {
+            if (filmsList[i].id == selectedId.get()) {
+                return filmsList[i]
             }
         }
         return null
@@ -72,6 +73,32 @@ class FilmStore(application: Application) : AndroidViewModel(application) {
     fun handleCommentChange(text: String) {
         val film = selectedFilm.get()!!
         film.comment.set(text)
+    }
+
+    var newFilmTitle = ""
+    var newFilmImage = ""
+    fun clearNewFilm() {
+        newFilmTitle = ""
+        newFilmImage = ""
+    }
+
+    fun handleChangeNewFilmTitle(text: String) {
+        newFilmTitle = text
+    }
+
+    fun handleChangeNewFilmImage(text: String) {
+        newFilmImage = text
+    }
+
+    fun createNewFilm() {
+        val a = films.get()!!
+        val filmsList = mutableListOf<FilmModel>()
+        for (i in 0..a.size-1) {
+            filmsList.add(a[i])
+        }
+        val film = FilmModel(newFilmImage, newFilmTitle, filmsList.size+1)
+        filmsList.add(film)
+        films.set(filmsList)
     }
 
     init {

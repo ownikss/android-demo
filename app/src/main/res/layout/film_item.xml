@@ -23,12 +23,19 @@
                 android:layout_height="match_parent"
                 android:orientation="horizontal">
 
-                <ImageView
-                    android:id="@+id/image"
-                    android:transitionName="image"
-                    android:layout_width="100dp"
-                    android:layout_height="wrap_content"
-                    tools:srcCompat="@tools:sample/backgrounds/scenic" />
+                <LinearLayout
+                    android:minHeight="100dp"
+                    android:minWidth="120dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+
+                    <ImageView
+                        android:id="@+id/image"
+                        android:layout_width="100dp"
+                        android:layout_height="wrap_content"
+                        android:transitionName="image"
+                        tools:srcCompat="@tools:sample/backgrounds/scenic" />
+                </LinearLayout>
 
                 <LinearLayout
                     android:layout_width="wrap_content"
@@ -41,25 +48,25 @@
                         android:layout_height="match_parent">
 
                         <TextView
-                            android:transitionName="title"
                             android:id="@+id/label"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:textSize="20sp"
+                            android:transitionName="title"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toTopOf="parent"
                             tools:text="title" />
 
                         <TextView
-                            android:transitionName="description"
                             android:id="@+id/description"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            android:layout_marginTop="8dp"
                             android:ellipsize="end"
                             android:maxLines="3"
                             android:text="@string/lorem"
                             android:textSize="14sp"
-                            android:layout_marginTop="8dp"
+                            android:transitionName="description"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toBottomOf="@id/label" />
 
