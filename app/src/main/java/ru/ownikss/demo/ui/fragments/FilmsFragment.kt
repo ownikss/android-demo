@@ -15,6 +15,7 @@ import ru.ownikss.demo.R
 import ru.ownikss.demo.databinding.FilmsFragmentBinding
 import ru.ownikss.demo.models.FilmStore
 import ru.ownikss.demo.ui.view.FilmAdapter
+import ru.ownikss.demo.utils.StatusBarManager
 
 class FilmsFragment : Fragment() {
     lateinit var binding: FilmsFragmentBinding
@@ -24,12 +25,15 @@ class FilmsFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        StatusBarManager.setTranslucent(activity!!.window)
         binding = DataBindingUtil.inflate(inflater, R.layout.films_fragment, container, false)
         binding.store = ViewModelProviders.of(activity!!).get(FilmStore::class.java)
         binding.filmList.layoutManager = LinearLayoutManager(context)
+        binding.toolbar.setPadding(0, StatusBarManager.getHeight(context), 0, 0)
         binding.toolbar.setNavigationOnClickListener {
             (binding.drawer as DrawerLayout).openDrawer(Gravity.LEFT)
         }
+        binding.drawerLayout.container.setPadding(0, StatusBarManager.getHeight(context), 0, 0)
         binding.toolbar.inflateMenu(R.menu.main_menu)
         binding.toolbar.setOnMenuItemClickListener { this.handleMenuSelected(it) }
         binding.filmList.adapter = FilmAdapter(binding.store!!.films, this)

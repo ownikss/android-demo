@@ -59,17 +59,17 @@ class FilmStore(application: Application) : AndroidViewModel(application) {
         if (film != null) {
             Log.d(
                 "FIRST_LESSON",
-                "comment: ${film.comment.get()} + , is favourite: ${film.isFavourite.get().toString()}"
+                "handleCommentChange: ${film.comment.get()} + , is favourite: ${film.isFavourite.get().toString()}"
             )
         }
     }
 
-    fun like(view: View) {
+    fun handleLikePress(view: View) {
         val film = selectedFilm.get()!!
         film.isFavourite.set(film.isFavourite.get()!!.not())
     }
 
-    fun comment(text: String) {
+    fun handleCommentChange(text: String) {
         val film = selectedFilm.get()!!
         film.comment.set(text)
     }

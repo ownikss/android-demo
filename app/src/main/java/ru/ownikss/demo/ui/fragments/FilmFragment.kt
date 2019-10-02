@@ -19,6 +19,7 @@ import ru.ownikss.demo.databinding.FilmFragmentBinding
 import ru.ownikss.demo.models.FilmStore
 import android.view.inputmethod.InputMethodManager
 import androidx.transition.TransitionInflater
+import ru.ownikss.demo.utils.StatusBarManager
 
 
 class FilmFragment : Fragment() {
@@ -34,6 +35,10 @@ class FilmFragment : Fragment() {
         sharedElementEnterTransition = TransitionInflater.from(context).inflateTransition(android.R.transition.move)
     }
 
+    override fun onResume() {
+        super.onResume()
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -42,9 +47,8 @@ class FilmFragment : Fragment() {
         binding = DataBindingUtil.inflate(inflater, R.layout.film_fragment, container, false)
         binding.store = ViewModelProviders.of(activity!!).get(FilmStore::class.java)
         binding.store!!.selectedFilm.addOnPropertyChangedCallback(cb)
-        binding.AppBar.setNavigationOnClickListener {
-            NavHostFragment.findNavController(this).popBackStack()
-        }
+        binding.AppBar.setNavigationOnClickListener { NavHostFragment.findNavController(this).popBackStack() }
+        binding.appBarLayout.setPadding(0, StatusBarManager.getHeight(context), 0, 0)
         binding.container.setOnTouchListener(fun(a: View, b: MotionEvent): Boolean {
             val imm = activity!!.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager?
             imm!!.hideSoftInputFromWindow(binding.commentInput.getWindowToken(), 0)
@@ -63,7 +67,7 @@ class FilmFragment : Fragment() {
             }
 
             override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-                binding.store!!.comment(p0.toString())
+                binding.store!!.handleCommentChange(p0.toString())
             }
         })
         initImage()

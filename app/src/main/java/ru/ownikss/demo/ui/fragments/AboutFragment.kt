@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.NavHostFragment
 import ru.ownikss.demo.R
 import ru.ownikss.demo.databinding.AboutFragmentBinding
+import ru.ownikss.demo.utils.StatusBarManager
 
 class AboutFragment : Fragment() {
     lateinit var binding: AboutFragmentBinding
@@ -19,6 +20,7 @@ class AboutFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         binding = DataBindingUtil.inflate(inflater, R.layout.about_fragment, container, false)
+        binding.toolbar.setPadding(0, StatusBarManager.getHeight(context), 0, 0)
         binding.toolbar.setNavigationOnClickListener {
             NavHostFragment.findNavController(this).popBackStack()
         }
