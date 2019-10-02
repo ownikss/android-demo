@@ -3,6 +3,7 @@ package ru.ownikss.demo.ui.fragments;
 import android.content.Intent
 import android.os.Bundle;
 import android.view.*
+import androidx.core.view.GravityCompat
 import androidx.databinding.DataBindingUtil
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.Fragment;
@@ -25,38 +26,49 @@ class FilmsFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        StatusBarManager.setTranslucent(activity!!.window)
         binding = DataBindingUtil.inflate(inflater, R.layout.films_fragment, container, false)
         binding.store = ViewModelProviders.of(activity!!).get(FilmStore::class.java)
-        binding.filmList.layoutManager = LinearLayoutManager(context)
-        binding.toolbar.setPadding(0, StatusBarManager.getHeight(context), 0, 0)
-        binding.toolbar.setNavigationOnClickListener {
-            (binding.drawer as DrawerLayout).openDrawer(Gravity.LEFT)
-        }
-        binding.drawerLayout.container.setPadding(0, StatusBarManager.getHeight(context), 0, 0)
         binding.toolbar.inflateMenu(R.menu.main_menu)
-        binding.toolbar.setOnMenuItemClickListener { this.handleMenuSelected(it) }
+
+        StatusBarManager.setTranslucent(activity!!.window)
+        binding.toolbar.setPadding(0, StatusBarManager.getHeight(context), 0, 0)
+        binding.drawerLayout.container.setPadding(0, StatusBarManager.getHeight(context), 0, 0)
+
+        binding.filmList.layoutManager = LinearLayoutManager(context)
         binding.filmList.adapter = FilmAdapter(binding.store!!.films, this)
-        binding.store!!.filmOpened.observe(activity!!, Observer {
-            try {
-                val extras = FragmentNavigatorExtras(
-                    binding.store!!.binding!!.description to "description",
-                    binding.store!!.binding!!.image to "image"
-                )
-                NavHostFragment.findNavController(this@FilmsFragment)
-                    .navigate(R.id.action_filmsFragment_to_filmFragment, null, null, extras)
-            } catch (e: Exception) {
-            }
-        })
+        initListeners()
+
+        return binding.root
+    }
+
+    fun initListeners() {
+        binding.toolbar.setNavigationOnClickListener {
+            (binding.drawer as DrawerLayout).openDrawer(GravityCompat.START)
+        }
+        binding.toolbar.setOnMenuItemClickListener { this.handleMenuSelected(it) }
+        if (binding.store != null) {
+            binding.store!!.filmOpened.observe(activity!!, Observer { navigateToFilm() })
+        }
         binding.drawerLayout.about.setOnClickListener {
             try {
-                (binding.drawer as DrawerLayout).closeDrawer(Gravity.LEFT)
+                (binding.drawer as DrawerLayout).closeDrawer(GravityCompat.START)
                 NavHostFragment.findNavController(this)
                     .navigate(R.id.action_filmsFragment_to_aboutFragment)
             } catch (e: Exception) {
             }
         }
-        return binding.root
+    }
+
+    fun navigateToFilm() {
+        try {
+            val extras = FragmentNavigatorExtras(
+                binding.store!!.binding!!.description to "description",
+                binding.store!!.binding!!.image to "image"
+            )
+            NavHostFragment.findNavController(this@FilmsFragment)
+                .navigate(R.id.action_filmsFragment_to_filmFragment, null, null, extras)
+        } catch (e: Exception) {
+        }
     }
 
     fun handleMenuSelected(item: MenuItem): Boolean {
@@ -70,6 +82,5 @@ class FilmsFragment : Fragment() {
             startActivity(shareIntent)
         }
         return false
-
     }
 }

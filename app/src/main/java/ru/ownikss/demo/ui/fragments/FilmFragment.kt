@@ -24,19 +24,15 @@ import ru.ownikss.demo.utils.StatusBarManager
 
 class FilmFragment : Fragment() {
     lateinit var binding: FilmFragmentBinding
-    val cb = object : Observable.OnPropertyChangedCallback() {
+    val filmChangedCallback = object : Observable.OnPropertyChangedCallback() {
         override fun onPropertyChanged(sender: Observable?, propertyId: Int) {
-            this@FilmFragment.initImage()
+            this@FilmFragment.setFilmData()
         }
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         sharedElementEnterTransition = TransitionInflater.from(context).inflateTransition(android.R.transition.move)
-    }
-
-    override fun onResume() {
-        super.onResume()
     }
 
     override fun onCreateView(
@@ -46,19 +42,33 @@ class FilmFragment : Fragment() {
     ): View? {
         binding = DataBindingUtil.inflate(inflater, R.layout.film_fragment, container, false)
         binding.store = ViewModelProviders.of(activity!!).get(FilmStore::class.java)
-        binding.store!!.selectedFilm.addOnPropertyChangedCallback(cb)
-        binding.AppBar.setNavigationOnClickListener { NavHostFragment.findNavController(this).popBackStack() }
         binding.appBarLayout.setPadding(0, StatusBarManager.getHeight(context), 0, 0)
+        initListeners()
+        setFilmData()
+        return binding.root
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        if (binding.store != null) {
+            binding.store!!.apply {
+                selectedFilm.removeOnPropertyChangedCallback(filmChangedCallback)
+                closeFilm()
+            }
+        }
+    }
+
+    fun initListeners() {
+        binding.store!!.selectedFilm.addOnPropertyChangedCallback(filmChangedCallback)
+        binding.AppBar.setNavigationOnClickListener {
+            NavHostFragment.findNavController(this).popBackStack()
+        }
         binding.container.setOnTouchListener(fun(a: View, b: MotionEvent): Boolean {
-            val imm = activity!!.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager?
+            val imm =
+                activity!!.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager?
             imm!!.hideSoftInputFromWindow(binding.commentInput.getWindowToken(), 0)
             return false
         })
-        val film = binding.store!!.selectedFilm.get()!!
-        binding.AppBar.title = film.label
-        Glide.with(this)
-            .load(film.image)
-            .into(binding.toolbarImage)
         binding.commentInput.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(p0: Editable?) {
             }
@@ -70,23 +80,16 @@ class FilmFragment : Fragment() {
                 binding.store!!.handleCommentChange(p0.toString())
             }
         })
-        initImage()
-        return binding.root
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
-        binding.store!!.selectedFilm.removeOnPropertyChangedCallback(cb)
-        binding.store!!.closeFilm()
-    }
-
-    fun initImage() {
+    fun setFilmData() {
         val film = binding.store!!.selectedFilm.get()
         if (film != null) {
+            View.GONE
+            binding.AppBar.title = film.label
             Glide.with(this)
                 .load(film.image)
-                .into(binding.poster)
+                .into(binding.toolbarImage)
         }
     }
-
 }
