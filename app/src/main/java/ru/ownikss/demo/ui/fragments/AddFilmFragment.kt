@@ -12,6 +12,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.NavHostFragment
+import com.google.android.material.chip.Chip
 import ru.ownikss.demo.R
 import ru.ownikss.demo.databinding.AddFilmFragmentBinding
 import ru.ownikss.demo.models.FilmStore
@@ -41,6 +42,29 @@ class AddFilmFragment : Fragment() {
         binding.toolbar.setNavigationOnClickListener {
             NavHostFragment.findNavController(this).popBackStack()
         }
+        binding.tagsInput.addTextChangedListener(object : TextWatcher {
+            override fun afterTextChanged(p0: Editable?) {
+            }
+
+            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+            }
+
+            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+                if (p0 != null && p0.length > 0) {
+                    if (p0[p0.length - 1] == ' ') {
+                        val chip = Chip(context)
+                        chip.isCloseIconVisible = true
+                        chip.setOnCloseIconClickListener({
+                            binding.chipGroup.removeView(chip)
+                        })
+                        chip.text = p0.toString()
+                        binding.chipGroup.addView(chip as View)
+                        binding.chipGroup
+                        binding.tagsInput.text!!.clear()
+                    }
+                }
+            }
+        })
         binding.addFilmBtn.setOnClickListener {
             binding.store!!.createNewFilm()
             val imm = activity!!.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager

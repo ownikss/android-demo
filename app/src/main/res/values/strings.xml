@@ -12,4 +12,5 @@
     <string name="lorem">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Beatae cum eius harum in iste laborum libero nesciunt, numquam officiis praesentium, rerum suscipit vel veritatis? A consequatur ipsa perspiciatis. Facere, illo!</string>
     <string name="film_title">Название фильма</string>
     <string name="poster">Постер</string>
+    <string name="tags">Теги</string>
 </resources>
