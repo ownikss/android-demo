@@ -48,6 +48,11 @@
                             android:text="@{store.selectedFilm.comment}" />
                     </com.google.android.material.textfield.TextInputLayout>
 
+                    <Button
+                        android:id="@+id/whereWatchBtn"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Где посмотреть" />
                 </LinearLayout>
             </LinearLayout>
         </androidx.core.widget.NestedScrollView>
@@ -88,31 +93,39 @@
         </com.google.android.material.appbar.AppBarLayout>
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/like_fill"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:onClick="@{store::handleLikePress}"
             android:src="@drawable/ic_favorite_fill"
-            android:visibility="@{store.selectedFilm.isFavourite ? View.VISIBLE : View.GONE}"
             android:tint="@android:color/white"
+            android:visibility="@{store.selectedFilm.isFavourite ? View.VISIBLE : View.GONE}"
             app:elevation="6dp"
             app:layout_anchor="@id/app_bar_layout"
             app:layout_anchorGravity="bottom|right|end" />
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/like_border"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:onClick="@{store::handleLikePress}"
             android:src="@drawable/ic_favorite_border"
-            android:visibility="@{store.selectedFilm.isFavourite ? View.GONE : View.VISIBLE}"
             android:tint="@android:color/white"
+            android:visibility="@{store.selectedFilm.isFavourite ? View.GONE : View.VISIBLE}"
             app:elevation="6dp"
             app:layout_anchor="@id/app_bar_layout"
             app:layout_anchorGravity="bottom|right|end" />
+
+        <include
+            android:id="@+id/bottomSheet"
+            layout="@layout/where_watch_bottom_sheet" />
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
+
 
     <data>
 
         <import type="android.view.View" />
+
         <variable
             name="store"
             type="ru.ownikss.demo.models.FilmStore" />

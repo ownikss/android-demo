@@ -14,12 +14,14 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.NavHostFragment
 import com.bumptech.glide.Glide
-import ru.ownikss.demo.R
 import ru.ownikss.demo.databinding.FilmFragmentBinding
 import ru.ownikss.demo.models.FilmStore
 import android.view.inputmethod.InputMethodManager
 import androidx.transition.TransitionInflater
 import ru.ownikss.demo.utils.StatusBarManager
+import com.google.android.material.bottomsheet.BottomSheetBehavior
+import com.google.android.material.bottomsheet.BottomSheetBehavior.*
+import ru.ownikss.demo.R
 
 
 class FilmFragment : Fragment() {
@@ -62,6 +64,21 @@ class FilmFragment : Fragment() {
         binding.store!!.selectedFilm.addOnPropertyChangedCallback(filmChangedCallback)
         binding.AppBar.setNavigationOnClickListener {
             NavHostFragment.findNavController(this).popBackStack()
+        }
+        val bottomSheetBehavior = BottomSheetBehavior.from(binding.bottomSheet)
+        bottomSheetBehavior.setBottomSheetCallback(object: BottomSheetBehavior.BottomSheetCallback() {
+            override fun onSlide(p0: View, p1: Float) {
+            }
+
+            override fun onStateChanged(p0: View, p1: Int) {
+                if (p1 == STATE_COLLAPSED) {
+                    binding.container.isNestedScrollingEnabled = true
+                }
+            }
+        })
+        binding.whereWatchBtn.setOnClickListener {
+            binding.container.isNestedScrollingEnabled = false
+             bottomSheetBehavior.state = STATE_EXPANDED
         }
         binding.container.setOnTouchListener(fun(a: View, b: MotionEvent): Boolean {
             val imm = activity!!.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
